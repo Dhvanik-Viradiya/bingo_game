@@ -1,0 +1,16 @@
+.bingo-container{
+    height: 60px;
+    width: 340px;
+    display: grid;
+    grid-template-columns: 60px 60px 60px 60px 60px;
+    gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+    text-align: center;
+  }
+  .bingo-div{
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid black;
+    text-align: center;
+    font-size: 30px;
+}
