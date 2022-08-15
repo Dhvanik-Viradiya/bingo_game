@@ -1,6 +1,9 @@
 .grid-div{
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid black;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #8b8cc4;
+    border-radius: 10px;
     font-size: 30px;
+    box-shadow: 2px 2px 2px 0px #777bab;
 }

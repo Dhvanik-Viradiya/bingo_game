@@ -15,22 +15,26 @@ class App extends Component{
     super(props)
     console.log("in constructor");
     this.state = {
-      token:""
+      token:"",
+      my_turn:"",
+      navigator:"",
+      click_enable:false
     }
+    this.setState = this.setState.bind(this);
     console.log("out constructor");
   }
-  componentDidMount = async () => {
-    console.log("in did mount");
+  // componentDidMount = async () => {
+  //   console.log("in did mount");
 
-    console.log(`${CONFIG}/generate_token`);
-    let data = await fetch(`${CONFIG}/generate_token`);
-    console.log("fetched");
-    let parsedData = await data.json()
-    console.log("from component did mount",parsedData.token);
-    this.setState(()=>{return {token:parsedData.token}}); 
-    console.log("out did mount");
+  //   console.log(`${CONFIG}/generate_token`);
+  //   let data = await fetch(`${CONFIG}/generate_token`);
+  //   console.log("fetched");
+  //   let parsedData = await data.json()
+  //   console.log("from component did mount",parsedData.token);
+  //   this.setState(()=>{return {token:parsedData.token}}); 
+  //   console.log("out did mount");
 
-  }
+  // }
   render(){
     console.log("in render");
     
@@ -38,8 +42,8 @@ class App extends Component{
       <div>
         <Router>
           <Routes>
-            <Route exact path="/" element={<Home/>} />
-            <Route path="/BingoPage" element={<BingoPage token={this.state.token}/>} />
+            <Route exact path="/" element={<Home generateTokenState={this.setState}/>} />
+            <Route path="/BingoPage" element={<BingoPage  click_enable = {this.state.click_enable} my_turn = {this.state.my_turn} token={this.state.token} navigator={this.state.navigator} handleApp = {this.setState}/>} />
           </Routes>
           {/* <Navigate to="/" /> */}
         </Router>

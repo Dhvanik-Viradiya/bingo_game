@@ -28,23 +28,54 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function SignInSide(props) {
+  const [textData, setTextData] = React.useState("");
   const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       token: data.get('token'),
     });
+    handleGetIn(event);
   };
 
-  const handleGenerateToken = (event) => {
+  const handleGenerateToken = async (event) => {
+    // console.log(`${CONFIG}/generate_token`);
+    let data = await fetch(`${CONFIG}/generate_token`);
+    console.log("fetched");
+    let parsedData = await data.json()
+    console.log("from component did mount",parsedData.token);
+    props.generateTokenState({token:parsedData.token, my_turn:0, navigator:navigate, click_enable:true}); 
     navigate("/BingoPage");
     // this.props.history.push("/BingoPage");
     // console.log(`${CONFIG}/generate_token`);
     // let data = await fetch(`${CONFIG}/generate_token`);
     // let parsedData = await data.json()
     // console.log(parsedData);
+  };
+
+  const handleGetIn = async (event) => {
+    // console.log(`${CONFIG}/set_player`);
+    let data = await fetch(`${CONFIG}/set_player?token=${textData}`);
+    console.log("fetched");
+    let parsedData = await data.json()
+    let status_code = parsedData.status_code
+    console.log("status_code",status_code);
+    if(status_code===200){
+      let my_turn = parsedData.my_turn
+      console.log("from component did mount",my_turn);
+      props.generateTokenState({token:textData, my_turn:parsedData.my_turn, navigator:navigate, click_enable:false});
+      navigate("/BingoPage");
+    }
+    else if(status_code===201){
+      console.log("Game is already started...");
+    }
+    else{
+      console.log("Recheck the token");
+    }
+    // console.log(textData);
   };
 
   return (
@@ -90,9 +121,11 @@ export default function SignInSide() {
                 label="Enter Token"
                 name="token"
                 autoFocus
+                onChange={(e)=>{setTextData(e.target.value);}}
               />
               <Button
-                type="submit"
+                onClick={handleGetIn}
+                // type="submit"
                 // fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}

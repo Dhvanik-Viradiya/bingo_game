@@ -5,14 +5,14 @@ import './Bingo.css';
 export default class Bingo extends Component {
   constructor(props){
     super(props);
-    console.log("constructor");
+    console.log("constructor Bingo");
   }
   render() {
     // console.log(this.props.handleBingo.bingo);
     let bingo_div = [];
     ['B','I','N','G','O'].map((ele) => {
       bingo_div.push(
-        <div className='bingo-div' style={{backgroundColor:this.props.handleBingo.bingo[ele]?"red":""}} key={ele}>{ele}</div>
+        <div className='bingo-div' style={this.props.handleBingo.bingo[ele]?{backgroundColor:"#ffa861", boxShadow: "2px 2px 2px 0px #e29257"}:{}} key={ele}>{ele}</div>
       );
       return bingo_div;
     });
