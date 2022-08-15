@@ -8,7 +8,6 @@ export default class Bingo extends Component {
     console.log("constructor Bingo");
   }
   render() {
-    // console.log(this.props.handleBingo.bingo);
     let bingo_div = [];
     ['B','I','N','G','O'].map((ele) => {
       bingo_div.push(
@@ -19,11 +18,6 @@ export default class Bingo extends Component {
     return (
       <div className='bingo-container'>
         {bingo_div}
-        {/* <div className='bingo-div' style={{backgroundColor:this.props.handleBingo.B?"red":""}} key={"B"}>B</div>
-        <div className='bingo-div' style={{backgroundColor:this.props.handleBingo.I?"red":""}} key={"I"}>I</div>
-        <div className='bingo-div' style={{backgroundColor:this.props.handleBingo.N?"red":""}} key={"N"}>N</div>
-        <div className='bingo-div' style={{backgroundColor:this.props.handleBingo.G?"red":""}} key={"G"}>G</div>
-        <div className='bingo-div' style={{backgroundColor:this.props.handleBingo.O?"red":""}} key={"O"}>O</div> */}
       </div>
     )
   }

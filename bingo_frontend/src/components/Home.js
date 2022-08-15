@@ -42,22 +42,14 @@ export default function SignInSide(props) {
   };
 
   const handleGenerateToken = async (event) => {
-    // console.log(`${CONFIG}/generate_token`);
     let data = await fetch(`${CONFIG}/generate_token`);
     console.log("fetched");
     let parsedData = await data.json()
-    console.log("from component did mount",parsedData.token);
     props.generateTokenState({token:parsedData.token, my_turn:0, navigator:navigate, click_enable:true}); 
     navigate("/BingoPage");
-    // this.props.history.push("/BingoPage");
-    // console.log(`${CONFIG}/generate_token`);
-    // let data = await fetch(`${CONFIG}/generate_token`);
-    // let parsedData = await data.json()
-    // console.log(parsedData);
   };
 
   const handleGetIn = async (event) => {
-    // console.log(`${CONFIG}/set_player`);
     let data = await fetch(`${CONFIG}/set_player?token=${textData}`);
     console.log("fetched");
     let parsedData = await data.json()
@@ -75,7 +67,6 @@ export default function SignInSide(props) {
     else{
       console.log("Recheck the token");
     }
-    // console.log(textData);
   };
 
   return (
@@ -96,7 +87,7 @@ export default function SignInSide(props) {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item sx={{display:'flex', alignItems: 'center'}} xs={12} sm={8} md={5} component={Paper} elevation={6} square >
           <Box
             sx={{
               my: 8,
@@ -125,31 +116,18 @@ export default function SignInSide(props) {
               />
               <Button
                 onClick={handleGetIn}
-                // type="submit"
-                // fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Get In
               </Button>
-              
-              {/* <Link
-                href="BingoPage"
-                // color="primary"
-                // level="h5"
-                underline="none"
-                // variant="solid"
-              > */}
               <Button
                 onClick={handleGenerateToken}
-                // type="submit"
-                // fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 , ml: 2}}
               >
               Generate Token
               </Button>
-              {/* </Link> */}
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

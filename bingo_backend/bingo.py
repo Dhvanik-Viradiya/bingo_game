@@ -25,22 +25,9 @@ number_seq["game_win"]=-1
 
 my_stream = ""
 
-def stream_handler(message):
-    print(message)
-    yield f"data: {'message'}\n\n"
-    # return Response(f"data: {'message'}\n\n", mimetype="text/event-stream")
-
-    # yield message.path
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-
 @app.route("/generate_token")
 def generate_token():
     token = str(uuid.uuid4())[:4]
-    # token = base64.b64encode(os.urandom(6)).decode('ascii')
     return json.dumps({"token":str(token)})
 
 @app.route("/set_token")

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import firebase from '../firebase';
 import { initializeApp } from "firebase/app";
 import { getDatabase, set, ref, onValue, update, get} from "firebase/database";
 import Grid from './Grid';
@@ -8,7 +7,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Navigate } from "react-router-dom";
 import CONFIG from '../config';
 import WINNER from '../media/winner.jpeg';
 import GAME_OVER from '../media/game_over.webp';
@@ -27,7 +25,6 @@ export default class Grids extends Component {
     let grid_array = [];
     for(let i=1;i<=25;i++)grid_array.push(i);
     grid_array = this.shuffleArray(grid_array);
-    console.log(grid_array);
     for(let i=1; i<=25; i++){
       grid_values[i] = [grid_array[i-1],false];
     }
@@ -44,37 +41,23 @@ export default class Grids extends Component {
       boxShadow: 24,
       p: 4,
     };
-    console.log("constructor",this.props);
   }
   componentDidMount = () => {
     console.log("did mount");
-    console.log(this.props);
     if(this.props.token){
       const db = getDatabase(this.app);
-      // set(ref(db, 'users'), {
-      //   username: "username",
-      //   email: "email",
-      //   profile_picture : "imageUrl"
-      // });
       const starCountRef = ref(db, this.props.token);
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val();
-        // console.log(data);
         console.log("onValue");
         let grid_values = this.state.grid_values;
-        // console.log(this.state.grid_values);
         for(let i=1;i<=25;i++){
           grid_values[i][1]=data[grid_values[i][0]];
         }
         this.checkBingo(grid_values);
-        // console.log("grid_values",grid_values);
-        console.log('data["game_win"]',data["game_win"]);
-        console.log('data["game_win"]',typeof(data["game_win"]));
-        // this.setState({modal_open:true, game_win:false});
         if(data["game_win"]===-1 || data["game_win"]===undefined){
           this.setState(() => {return {grid_values:grid_values, click_enable:true}});
           this.props.handleBingo({current_turn:data["turn"]});
-
         }
         else if(data["game_win"]===this.props.my_turn){
           console.log("You Win");
@@ -86,50 +69,9 @@ export default class Grids extends Component {
           this.setState({modal_open:true, game_win:false});
           this.props.handleBingo({current_turn:data["turn"]});
         }
-        // updateStarCount(postElement, data);
       });
-      // let data = this.database.ref('VgXvdpX');
-      // this.database.ref("VgXvdpX");
-      // console.log("data",this.database);
-      // firebase.database().ref(`VgXvdpX/`).on('value', function (snapshot) {
-      //   console.log(snapshot.val());
-      // });
     }
-
   }
-  // componentDidUpdate = (prevProp) => {
-  //   console.log("prev",prevProp.token);
-  //   console.log("real",this.props.token);
-
-  //   if(this.props.token!==prevProp.token){
-  //   // if(this.props.token){
-  //     const db = getDatabase(this.app);
-  //     // set(ref(db, 'users'), {
-  //     //   username: "username",
-  //     //   email: "email",
-  //     //   profile_picture : "imageUrl"
-  //     // });
-  //       const starCountRef = ref(db, this.props.token);
-  //       onValue(starCountRef, (snapshot) => {
-  //         const data = snapshot.val();
-  //         console.log(data);
-  //         let grid_values = this.state.grid_values;
-  //         console.log(this.state.grid_values);
-  //         for(let i=1;i<=25;i++){
-  //           grid_values[i][1]=data[grid_values[i][0]];
-  //         }
-  //         console.log(grid_values);
-  //         this.setState(() => {return {grid_values:grid_values}});
-  //         // updateStarCount(postElement, data);
-  //       });
-  //     // let data = this.database.ref('VgXvdpX');
-  //     // this.database.ref("VgXvdpX");
-  //     // console.log("data",this.database);
-  //     // firebase.database().ref(`VgXvdpX/`).on('value', function (snapshot) {
-  //     //   console.log(snapshot.val());
-  //     // });
-  //   }
-  // }
   
   // Function to shuffle the array content
   shuffleArray = (array) => {
@@ -145,35 +87,18 @@ export default class Grids extends Component {
   
   handleClose = () => {
     this.setState({modal_open:false});
-    console.log("this.props", this.props);
     this.props.navigator("/");
-    // this.props.history.push('/');
-    // return <Navigate to="/"/>;
   }
 
   game_win = async () => {
     const db = getDatabase(this.app);
     let game_win_check = await get(ref(db,`${this.props.token}/game_win`));
-    console.log("game_win_check",game_win_check);
-    console.log("game_win_check.val",game_win_check.val());
     if(game_win_check.val()!==-1){console.log("returning");return;}
     await fetch(`${CONFIG}/game_win?token=${this.props.token}&player=${this.props.my_turn}`)
-      .then(async response => {
-        console.log(response);
-        console.log("You win");
-        // this.props.handleGridState({modal_open:true});
-
-        // let turn = await get(ref(db,`${this.props.token}/turn`));
-        // console.log("turn",turn);
-        // console.log(turn.val());
-        // this.props.handleApp({my_turn:turn.val()});
-        
-      })
-      .catch(error => {console.log("Win response error");});
+    .catch(error => {console.log("Win response error");});
   }
 
   checkBingo = (temp_grid_values) => {
-    // this.game_win();
     let bingo = ['B','I','N','G','O'];
     let bingo_dict = {'B':false,'I':false,'N':false,'G':false,'O':false}
     let bingoCount = 0;
@@ -221,7 +146,6 @@ export default class Grids extends Component {
       count+=4;
       if(temp_grid_values[count][1])check++;
     }
-    // console.log("check",check);
     if(check===5){
       if(bingoCount<5){
         bingo_dict[bingo[bingoCount]]=true;
@@ -258,8 +182,6 @@ export default class Grids extends Component {
                 </Typography>
                 <Button
                   onClick={this.handleClose}
-                  // type="submit"
-                  // fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >

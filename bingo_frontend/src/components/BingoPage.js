@@ -4,7 +4,6 @@ import Grids from '../components/Grids';
 import CONFIG from '../config';
 import "./BingoPage.css";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-// import {CopyToClipboard} from 'react-copy-to-clipboard';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 
@@ -19,59 +18,25 @@ class BingoPage extends Component {
     };
     this.setState = this.setState.bind(this);
     console.log("Constructor out BingoPage");
-    // this.sse = this.sse.bind(this)
-    // this.sse.onmessage = e => {
-    //   console.log(e);
-    // }
   }
-  // cors_header = () => {
-  //   let headers = new Headers();
 
-  //   headers.append('Content-Type', 'application/json');
-  //   headers.append('Accept', 'application/json');
-  
-  //   headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
-  //   headers.append('Access-Control-Allow-Credentials', 'true');
-  //   headers.append('GET', 'POST', 'OPTIONS');
-  //   return headers
-  // }
   set_token = async () => {
     let url = `${CONFIG}/set_token?token=${this.props.token}`;
-    console.log(url);
-    // let data = await fetch(url);
     await fetch(url);
-    // let parsedData = await data.json();
   }
+
   componentDidMount = async () => {
-    console.log("token", this.props);
     if(!this.props.token) window.location = "/";
     if(this.props.token && this.props.my_turn===0){
       await this.set_token()
     }
-    // this.sse.addEventListener("flightStateUpdate",e => {
-    //   console.log(e);
-    // });
   }
+
   componentDidUpdate = async (prevProp) => {
     console.log("component did update");
-    console.log(prevProp);
-    console.log(this.props);
     if(prevProp.token!==this.props.token && this.props.my_turn===0){
       await this.set_token()
     }
-    // this.sse.onmessage = e => {
-    //   console.log(e);
-    // }
-    // let sse = new EventSource(`${CONFIG}/stream`);
-    // sse.onmessage = e => {
-    //   console.log("message");
-    //   console.log(e);
-    // }
-    // sse.onerror = e => {
-    //   console.log("error occured",e);
-    //   sse.close()
-    // }
-
   }
 
   copy_content = () => {
