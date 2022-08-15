@@ -2,6 +2,7 @@
 
 # dependencies
 bingo_frontend/node_modules
+bingo_frontend/build
 /.pnp
 .pnp.js
 firebase.js

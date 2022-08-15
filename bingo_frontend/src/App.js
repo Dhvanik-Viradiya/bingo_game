@@ -26,7 +26,7 @@ class App extends Component{
     console.log("in render");
     
     return (
-      <div>
+      <div className='App'>
         <Router>
           <Routes>
             <Route exact path="/" element={<Home generateTokenState={this.setState}/>} />

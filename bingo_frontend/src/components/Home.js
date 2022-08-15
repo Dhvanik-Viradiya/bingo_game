@@ -17,8 +17,8 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://bingo-live.surge.sh/">
+        Bingo Live
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -101,7 +101,7 @@ export default function SignInSide(props) {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Join / Generate
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -119,7 +119,7 @@ export default function SignInSide(props) {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Get In
+                Join
               </Button>
               <Button
                 onClick={handleGenerateToken}
